@@ -5,6 +5,8 @@ using UnityEngine;
 public class TaskManager : MonoBehaviour
 {
     public List<Task> tasks = new List<Task>();
+    public string[] names = new string[] { };
+
     private List<Task> tasksToRemove = new List<Task>();
     private GameController gameController;
 
@@ -51,7 +53,7 @@ public class TaskManager : MonoBehaviour
     {
         var task = new Task();
 
-        task.taskName = "Task #1";
+        task.taskName = "Agent " + names[Random.Range(0, names.Length)];
         task.OnTaskSuccess += HandleSuccess;
         task.OnTaskFail += HandleFail;
 

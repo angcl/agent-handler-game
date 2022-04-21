@@ -850,6 +850,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2f725e8b8624774881ee9fdd4aff9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  names:
+  - Dee
+  - Scottie
+  - Randolph
+  - Lucinda
+  - Jill
+  - Lessie
 --- !u!114 &912876938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1316,7 +1323,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1842,7 +1849,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
