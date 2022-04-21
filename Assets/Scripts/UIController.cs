@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
     private TaskManager taskManager;
+    private GameController gameController;
+    
     private List<GameObject> currentState = new List<GameObject>();
 
-    public GameObject reputationBar;
+    public Slider reputationBar;
+    
     public GameObject taskList;
     public GameObject taskPrefab;
     public GameObject toolBar;
@@ -15,6 +19,7 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         taskManager = GetComponent<TaskManager>();
+        gameController = GetComponent<GameController>();
         taskManager.OnTasksChanged += HandleTasksChanged;
     }
 
@@ -43,6 +48,8 @@ public class UIController : MonoBehaviour
             TaskElement taskElement = taskObject.GetComponent<TaskElement>();
             taskElement.task = task;
         }
+        
+        reputationBar.value = gameController.GetReputation();
     }
 
 

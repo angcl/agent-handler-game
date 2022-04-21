@@ -52,4 +52,9 @@ public class GameController : MonoBehaviour
             numAgentsDied++;
         }
     }
+    
+    public float GetReputation()
+    {
+        return reputation;
+    }
 }
