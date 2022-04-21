@@ -42,6 +42,7 @@ public class TaskManager : MonoBehaviour
         }
 
         tasksToRemove.Clear();
+
     }
 
     void GenerateTask()
@@ -50,6 +51,9 @@ public class TaskManager : MonoBehaviour
         task.OnTaskSuccess += HandleSuccess;
         task.OnTaskFail += HandleFail;
         tasks.Add(task);
+
+        if (OnTasksChanged != null)
+            OnTasksChanged(tasks);
     }
 
     void HandleTaskEvent(Task task)
@@ -57,6 +61,9 @@ public class TaskManager : MonoBehaviour
         task.OnTaskSuccess -= HandleSuccess;
         task.OnTaskFail -= HandleFail;
         tasksToRemove.Add(task);
+
+        if(OnTasksChanged != null)
+            OnTasksChanged(tasks);
     }
 
     void HandleFail(Task task)

@@ -33,11 +33,23 @@ public class GameController : MonoBehaviour
     {
         reputation = Mathf.Max(0.0f, reputation - task.reputationLoss);
         numTasksFailed++;
+        if (task.deathChanceOnFail > 0f 
+            && Random.Range(0f, 1f) <= task.deathChanceOnFail)
+        {
+            // TODO Agent Death animation
+            numAgentsDied++;
+        }
     }
 
     public void TaskSucceeded(Task task)
     {
         reputation = Mathf.Min(1.0f, reputation + task.reputationGain);
         numTasksCompleted++;
+        if (task.deathChanceOnSuccess > 0f
+            && Random.Range(0f, 1f) <= task.deathChanceOnSuccess)
+        {
+            // TODO Agent Death animation
+            numAgentsDied++;
+        }
     }
 }

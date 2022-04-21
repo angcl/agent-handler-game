@@ -11,6 +11,9 @@ public class Task
     public string taskDescription = "Description";
     public float timeLimit = 10f;
 
+    public float deathChanceOnFail = 0.5f;
+    public float deathChanceOnSuccess = 0.15f;
+
     private List<ICondition> conditions = new List<ICondition>() { new EverFailing(), new EverSucceeding() };
     private float timePassed = 0f;
 
@@ -32,6 +35,11 @@ public class Task
                 OnTaskSuccess(this);
     }
 
+    public float GetRemainingPercentage()
+    {
+        return timePassed / timeLimit;
+    }
+
     bool CheckConditions()
     {
         foreach(var condition in conditions)
@@ -40,4 +48,5 @@ public class Task
 
         return true;
     }
+
 }
