@@ -53,6 +53,7 @@ public class TaskManager : MonoBehaviour
     {
         var task = new Task();
 
+        // Test random name generation
         task.taskName = "Agent " + names[Random.Range(0, names.Length)];
         task.OnTaskSuccess += HandleSuccess;
         task.OnTaskFail += HandleFail;
