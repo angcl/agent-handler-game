@@ -13,15 +13,14 @@ public class TaskManager : MonoBehaviour
     public delegate void TasksChanged(List<Task> tasks);
     public event TasksChanged OnTasksChanged;
 
+    private readonly List<ICondition> availableConditions = new List<ICondition> {
+        new EverFailing(),
+        new EverSucceeding()
+    };
+
     private void Awake()
     {
         gameController = GetComponent<GameController>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        GenerateTask();
     }
 
     // Update is called once per frame
@@ -49,7 +48,7 @@ public class TaskManager : MonoBehaviour
             OnTasksChanged(tasks);
     }
 
-    void GenerateTask()
+    public void GenerateTask()
     {
         var task = new Task();
 
@@ -58,10 +57,15 @@ public class TaskManager : MonoBehaviour
         task.OnTaskSuccess += HandleSuccess;
         task.OnTaskFail += HandleFail;
 
+        task.AddCondition(GetRandomConditon());
         tasks.Add(task);
 
         if (OnTasksChanged != null)
             OnTasksChanged(tasks);
+    }
+    
+    private ICondition GetRandomConditon() {
+        return availableConditions[Random.Range(0, availableConditions.Count)].Clone();
     }
 
     void HandleTaskEvent(Task task)

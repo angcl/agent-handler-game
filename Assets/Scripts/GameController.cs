@@ -12,6 +12,15 @@ public class GameController : MonoBehaviour
     private float reputation = 1.0f;
     private TaskManager taskManager;
 
+    public float generateTaskAfterTime = 20.0f;
+    private float timePassedForTaskGeneration = 0.0f;
+    
+    [SerializeField]
+    private float minGenerationTime = 5.0f;
+    
+    [SerializeField]
+    private float maxGenerationTime = 30.0f;
+
     private void Awake()
     {
         taskManager = GetComponent<TaskManager>();
@@ -27,6 +36,13 @@ public class GameController : MonoBehaviour
     void Update()
     {
         timeSurvived += Time.deltaTime;
+        timePassedForTaskGeneration += Time.deltaTime;
+        if (timePassedForTaskGeneration > generateTaskAfterTime) {
+            timePassedForTaskGeneration = 0.0f;
+            taskManager.GenerateTask();
+        }
+
+        GenerateTaskIfEmpty();
     }
 
     public void TaskFailed(Task task)
@@ -39,6 +55,8 @@ public class GameController : MonoBehaviour
             // TODO Agent Death animation
             numAgentsDied++;
         }
+
+        generateTaskAfterTime = Mathf.Min(maxGenerationTime, generateTaskAfterTime + 0.2f);
     }
 
     public void TaskSucceeded(Task task)
@@ -51,10 +69,20 @@ public class GameController : MonoBehaviour
             // TODO Agent Death animation
             numAgentsDied++;
         }
+
+        generateTaskAfterTime = Mathf.Max(minGenerationTime, generateTaskAfterTime - 0.1f);
     }
     
     public float GetReputation()
     {
         return reputation;
+    }
+
+    private void GenerateTaskIfEmpty() {
+        if(taskManager.tasks.Count == 0)
+        {
+            taskManager.GenerateTask();
+            timePassedForTaskGeneration = 0.0f;
+        }
     }
 }

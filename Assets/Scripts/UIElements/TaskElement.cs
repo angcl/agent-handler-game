@@ -18,7 +18,7 @@ public class TaskElement : MonoBehaviour
         if(task != null)
         {
             nameText.text = task.taskName;
-            timeBar.value = (1f - task.GetRemainingPercentage());
+            timeBar.value = task.GetRemainingPercentage();
         }
     }
 

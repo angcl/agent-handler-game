@@ -4,5 +4,8 @@ using UnityEngine;
 
 public interface ICondition
 {
+    void Randomize();
     bool Check();
+    float TimeToSolve();
+    ICondition Clone();
 }

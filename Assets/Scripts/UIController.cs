@@ -16,11 +16,15 @@ public class UIController : MonoBehaviour
     public GameObject taskPrefab;
     public GameObject toolBar;
 
+    public GameObject contextMenu;
+
     private void Awake()
     {
         taskManager = GetComponent<TaskManager>();
         gameController = GetComponent<GameController>();
         taskManager.OnTasksChanged += HandleTasksChanged;
+        var cameraController = Camera.main.GetComponent<CameraController>();
+        cameraController.OnCameraMoved += HideContextMenu;
     }
 
     void ClearTaskList()
@@ -52,5 +56,18 @@ public class UIController : MonoBehaviour
         reputationBar.value = gameController.GetReputation();
     }
 
+    public void ShowContextMenu(Vector3 coordinates, IClickable clickable)
+    {
+        coordinates.z = 0;
+
+        contextMenu.SetActive(true);
+        contextMenu.transform.position = coordinates;
+
+        contextMenu.GetComponent<ContextMenu>().SetClickable(clickable);
+    }
+
+    public void HideContextMenu() {
+        contextMenu.SetActive(false);
+    }
 
 }

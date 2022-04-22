@@ -14,7 +14,7 @@ public class Task
     public float deathChanceOnFail = 0.5f;
     public float deathChanceOnSuccess = 0.15f;
 
-    private List<ICondition> conditions = new List<ICondition>() { new EverFailing(), new EverSucceeding() };
+    private List<ICondition> conditions = new List<ICondition>();
     private float timePassed = 0f;
 
     public delegate void TaskFail(Task task);
@@ -37,7 +37,7 @@ public class Task
 
     public float GetRemainingPercentage()
     {
-        return timePassed / timeLimit;
+        return 1f - (timePassed / timeLimit);
     }
 
     bool CheckConditions()
@@ -47,6 +47,10 @@ public class Task
                 return false;
 
         return true;
+    }
+
+    public void AddCondition(ICondition condition) {
+        conditions.Add(condition);
     }
 
 }
