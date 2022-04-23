@@ -22,6 +22,8 @@ public class Task
     public delegate void TaskSuccess(Task task);
     public event TaskSuccess OnTaskSuccess;
 
+    private GameController gameController;
+
     public void Update()
     {
         timePassed += Time.deltaTime;

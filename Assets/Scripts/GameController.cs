@@ -38,8 +38,33 @@ public class GameController : MonoBehaviour
             gameState = EGameState.PLAYING;
         }
         
+        if (gameState == EGameState.PAUSED) {
+            if (Input.anyKeyDown) {
+                uiController.HidePauseMenu();
+                uiController.ShowIngameMenu();
+
+                Time.timeScale = 1.0f;
+
+                gameState = EGameState.PLAYING;
+                return;                
+            }
+        }
+
         if (gameState == EGameState.PLAYING)
         {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                gameState = EGameState.PAUSED;
+
+                Time.timeScale = 0.0f;
+
+                uiController.HideContextMenu();
+                uiController.HideIngameMenu();
+                uiController.ShowPauseMenu();
+                
+                return;
+            }
+
             timeSurvived += Time.deltaTime;
             timePassedForTaskGeneration += Time.deltaTime;
             if (timePassedForTaskGeneration > generateTaskAfterTime) {

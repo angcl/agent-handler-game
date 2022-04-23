@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     
     public GameObject mainMenu;
     public GameObject ingameMenu;
+    public GameObject pauseMenu;
     public GameObject taskArea;
     public GameObject taskList;
     public GameObject taskPrefab;
@@ -110,6 +111,14 @@ public class UIController : MonoBehaviour
 
     public void HideIngameMenu() {
         ingameMenu.SetActive(false);
+    }
+
+    public void ShowPauseMenu() {
+        pauseMenu.SetActive(true);
+    }
+
+    public void HidePauseMenu() {
+        pauseMenu.SetActive(false);
     }
 
 }
