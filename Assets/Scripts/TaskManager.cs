@@ -17,7 +17,8 @@ public class TaskManager : MonoBehaviour
         new CameraDeactivated(),
         new EnergyDeactivated(),
         new UploadedVirus(),
-        new DownloadedFiles()
+        new DownloadedFiles(),
+        new VehicleArrived()
     };
 
     private void Awake()
@@ -28,6 +29,9 @@ public class TaskManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameController.gameState != EGameState.PLAYING)
+            return;
+
         CleanupTasks();
 
         foreach(var task in tasks)

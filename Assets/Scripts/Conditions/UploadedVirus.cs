@@ -11,7 +11,7 @@ public class UploadedVirus : ICondition
     {
         BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
 
-        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.isHacked).ToArray();
+        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.isHacked && !b.uploadVirus && !b.downloadFiles).ToArray();
         if(availableBuildings.Length == 0){
             return false;
         }

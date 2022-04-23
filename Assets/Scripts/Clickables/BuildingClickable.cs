@@ -8,7 +8,7 @@ public class BuildingClickable : MonoBehaviour, IClickable
     public bool isHacked { get; private set; } = false;
     public bool isDownloaded { get; private set; } = false;
 
-    private bool uploadVirus = false;
+    public bool uploadVirus { get; private set; } = false;
 
     [SerializeField]
     public float timeForVirusUpload { get; private set; } = 10.0f;

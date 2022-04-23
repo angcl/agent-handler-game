@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
+    private GameController gameController;
     private Camera mainCamera;
 
     public float moveRegion = 100f;
@@ -19,11 +20,15 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        gameController = FindObjectOfType<GameController>();
         mainCamera = GetComponent<Camera>();
     }
 
     void Update()
     {
+        if (gameController.gameState != EGameState.PLAYING)
+            return;
+            
         if (objectToFocus != null) {
             // Todo: Make this smooth scrollable
             var newPosition = new Vector3(objectToFocus.transform.position.x, transform.position.y, objectToFocus.transform.position.z - 18.0f);

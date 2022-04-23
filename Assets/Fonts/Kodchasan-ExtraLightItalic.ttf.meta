@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: af754b99bd0756f49bee24f0d13ed9cc
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Kodchasan
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7774237f450f6334296012e01ffadc18, type: 3}
+  - {fileID: 12800000, guid: f4d75b7998b4626468568b7af89ddda1, type: 3}
+  - {fileID: 12800000, guid: f5c60ba7d4decc1459fd117ed6911d41, type: 3}
+  - {fileID: 12800000, guid: 6958c2561f5f49248b6978fdd011883e, type: 3}
+  - {fileID: 12800000, guid: 12f0a92e9214b3e4e829d547d8ddb127, type: 3}
+  - {fileID: 12800000, guid: 565869fa40b80ff419258ce21ac905f4, type: 3}
+  - {fileID: 12800000, guid: fbee3be1dd6073d40a36cedc9c8ff5c7, type: 3}
+  - {fileID: 12800000, guid: 63eacfbf72522a4448358825091ed204, type: 3}
+  - {fileID: 12800000, guid: 5624da7f76183b04c9d53e21df20252e, type: 3}
+  - {fileID: 12800000, guid: 46e49fb4a14a04d40804c0c76edf6fbd, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -6,27 +6,32 @@ public class PlayerController : MonoBehaviour
 {
     private Camera mainCamera;
 
+    private GameController gameController;
+
     [SerializeField]
     private UIController uiController;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameController = FindObjectOfType<GameController>();
         mainCamera = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameController.gameState != EGameState.PLAYING)
+            return;
+
         if(Input.GetMouseButtonUp(0))
         {
             if (uiController.IsContextMenuActive()) {
                 uiController.HideContextMenu();
                 return;
             }
-                        
+
             var mousePos = Input.mousePosition;
-            Debug.Log(mousePos);
             if ( uiController.IsPointInTaskArea(mousePos) ) {
                 return;
             }

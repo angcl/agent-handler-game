@@ -3,6 +3,7 @@ public enum ETaskIcon
     ENERGY,
     CAMERA,
     UPLOAD,
-    DOWNLOAD
+    DOWNLOAD,
+    CALL
 
 }

@@ -11,7 +11,7 @@ public class DownloadedFiles : ICondition
     {
         BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
 
-        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.downloadFiles && !b.isDownloaded).ToArray();
+        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.downloadFiles && !b.isDownloaded && !b.uploadVirus).ToArray();
         if(availableBuildings.Length == 0){
             return false;
         }

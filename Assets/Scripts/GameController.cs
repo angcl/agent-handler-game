@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public EGameState gameState { get; private set; } = EGameState.MAIN_MENU;
     private float timeSurvived = 0;
     private int numAgentsDied = 0;
     private int numTasksFailed = 0;
     private int numTasksCompleted = 0;
 
     private float reputation = 1.0f;
+    private UIController uiController;
     private TaskManager taskManager;
 
     public float generateTaskAfterTime = 20.0f;
@@ -23,26 +25,30 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        uiController = GetComponent<UIController>();
         taskManager = GetComponent<TaskManager>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        timeSurvived += Time.deltaTime;
-        timePassedForTaskGeneration += Time.deltaTime;
-        if (timePassedForTaskGeneration > generateTaskAfterTime) {
-            timePassedForTaskGeneration = 0.0f;
-            taskManager.GenerateTask();
+        if (gameState == EGameState.MAIN_MENU && Input.anyKeyDown) {
+            uiController.HideMainMenu();
+            uiController.ShowIngameMenu();
+            gameState = EGameState.PLAYING;
         }
+        
+        if (gameState == EGameState.PLAYING)
+        {
+            timeSurvived += Time.deltaTime;
+            timePassedForTaskGeneration += Time.deltaTime;
+            if (timePassedForTaskGeneration > generateTaskAfterTime) {
+                timePassedForTaskGeneration = 0.0f;
+                taskManager.GenerateTask();
+            }
 
-        GenerateTaskIfEmpty();
+            GenerateTaskIfEmpty();
+        }
     }
 
     public void TaskFailed(Task task)

@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
 
     public Slider reputationBar;
     
+    public GameObject mainMenu;
+    public GameObject ingameMenu;
     public GameObject taskArea;
     public GameObject taskList;
     public GameObject taskPrefab;
@@ -27,6 +29,13 @@ public class UIController : MonoBehaviour
         taskManager.OnTasksChanged += HandleTasksChanged;
         var cameraController = Camera.main.GetComponent<CameraController>();
         cameraController.OnCameraMoved += HideContextMenu;
+    }
+
+    void Update() {
+        var reputation = gameController.GetReputation();
+        if (reputationBar.value != reputation) {
+            reputationBar.value = Mathf.Lerp(reputationBar.value, reputation, 2.5f * Time.deltaTime);
+        }
     }
 
     void ClearTaskList()
@@ -55,7 +64,7 @@ public class UIController : MonoBehaviour
             taskElement.task = task;
         }
         
-        reputationBar.value = gameController.GetReputation();
+        // reputationBar.value = gameController.GetReputation();
     }
 
     public void ShowContextMenu(Vector3 coordinates, IClickable clickable)
@@ -85,6 +94,22 @@ public class UIController : MonoBehaviour
         var yMax = taskArea.transform.position.y + rectTransform.rect.height / 2;
 
         return ( point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax );
+    }
+
+    public void ShowMainMenu() {
+        mainMenu.SetActive(true);
+    }
+
+    public void HideMainMenu() {
+        mainMenu.SetActive(false);
+    }
+
+    public void ShowIngameMenu() {
+        ingameMenu.SetActive(true);
+    }
+
+    public void HideIngameMenu() {
+        ingameMenu.SetActive(false);
     }
 
 }
