@@ -5,9 +5,9 @@ using UnityEngine;
 public class EverFailing : ICondition
 {
 
-    public void Randomize()
+    public bool Randomize()
     {
-
+        return true;
     }
 
     public bool Check()
@@ -24,4 +24,12 @@ public class EverFailing : ICondition
     {
         return (ICondition) this.MemberwiseClone();
     }
+
+    public GameObject GetObjectToFocus() {
+        return null;
+    }
+
+    public ETaskIcon GetTaskIcon() {
+        return ETaskIcon.CAMERA;
+    }    
 }

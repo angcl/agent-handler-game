@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    private Camera camera;
+    private Camera mainCamera;
 
     public float moveRegion = 100f;
     public float speed = 0.1f;
@@ -15,16 +15,28 @@ public class CameraController : MonoBehaviour
 
     public delegate void CameraMoved();
     public event CameraMoved OnCameraMoved;
+    public GameObject objectToFocus;
 
     void Start()
     {
-        camera = GetComponent<Camera>();
+        mainCamera = GetComponent<Camera>();
     }
 
     void Update()
     {
+        if (objectToFocus != null) {
+            // Todo: Make this smooth scrollable
+            var newPosition = new Vector3(objectToFocus.transform.position.x, transform.position.y, objectToFocus.transform.position.z - 18.0f);
+            if (Vector3.Distance(newPosition, transform.position) < 1f) {
+                objectToFocus = null;
+                return;
+            }
+            transform.position = Vector3.Lerp(transform.position, newPosition, speed * 0.25f * Time.deltaTime);
+            return;
+        }
+
         Vector3 mousePos = Input.mousePosition;
-        Vector3 cameraPos = camera.transform.position;
+        Vector3 cameraPos = mainCamera.transform.position;
         bool willMove = false;
 
         if (mousePos.x <= moveRegion 
@@ -71,7 +83,7 @@ public class CameraController : MonoBehaviour
 
         if(willMove)
         {
-            camera.transform.position = cameraPos;
+            mainCamera.transform.position = cameraPos;
             if (OnCameraMoved != null)
                 OnCameraMoved();
         }

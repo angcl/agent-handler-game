@@ -9,10 +9,9 @@ public class Task
 
     public string taskName = "Task";
     public string taskDescription = "Description";
-    public float timeLimit = 10f;
+    public float timeLimit = 0f;
 
     public float deathChanceOnFail = 0.5f;
-    public float deathChanceOnSuccess = 0.15f;
 
     private List<ICondition> conditions = new List<ICondition>();
     private float timePassed = 0f;
@@ -50,7 +49,12 @@ public class Task
     }
 
     public void AddCondition(ICondition condition) {
+        timeLimit += condition.TimeToSolve();
         conditions.Add(condition);
+    }
+
+    public ICondition GetCurrentCondition() {
+        return conditions[0];
     }
 
 }

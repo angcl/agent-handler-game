@@ -4,8 +4,10 @@ using UnityEngine;
 
 public interface ICondition
 {
-    void Randomize();
+    bool Randomize();
     bool Check();
     float TimeToSolve();
     ICondition Clone();
+    GameObject GetObjectToFocus();
+    ETaskIcon GetTaskIcon();
 }

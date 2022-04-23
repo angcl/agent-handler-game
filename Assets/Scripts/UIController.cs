@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
 
     public Slider reputationBar;
     
+    public GameObject taskArea;
     public GameObject taskList;
     public GameObject taskPrefab;
     public GameObject toolBar;
@@ -20,6 +21,7 @@ public class UIController : MonoBehaviour
 
     private void Awake()
     {
+
         taskManager = GetComponent<TaskManager>();
         gameController = GetComponent<GameController>();
         taskManager.OnTasksChanged += HandleTasksChanged;
@@ -68,6 +70,21 @@ public class UIController : MonoBehaviour
 
     public void HideContextMenu() {
         contextMenu.SetActive(false);
+    }
+
+    public bool IsContextMenuActive() {
+        return contextMenu.activeInHierarchy;
+    }
+
+    public bool IsPointInTaskArea(Vector2 point)
+    {
+        var rectTransform = taskArea.GetComponent<RectTransform>();
+        var xMin = taskArea.transform.position.x - rectTransform.rect.width;
+        var xMax = taskArea.transform.position.x;
+        var yMin = taskArea.transform.position.y - rectTransform.rect.height / 2;
+        var yMax = taskArea.transform.position.y + rectTransform.rect.height / 2;
+
+        return ( point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax );
     }
 
 }

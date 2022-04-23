@@ -5,26 +5,71 @@ using UnityEngine;
 public class CameraClickable : MonoBehaviour, IClickable
 {
     public bool isActive { get; private set; } = true;
+    private float timePassedSinceDeactivation = 0.0f;
+    
+    [SerializeField]
+    private float timeForReactivation = 10.0f;
+
+    void Update()
+    {
+        if(!isActive)
+        {
+            timePassedSinceDeactivation += Time.deltaTime;
+            if(timePassedSinceDeactivation >= timeForReactivation)
+            {
+                SetCameraState(true);
+                timePassedSinceDeactivation = 0.0f;
+            }    
+        }
+    }
+
+    private void SetCameraState(bool active) 
+    {
+        isActive = active;
+        if (isActive) {
+            gameObject.GetComponent<Renderer>().material.color = Color.green;
+            return;
+        }
+
+        timePassedSinceDeactivation = 0.0f;
+        gameObject.GetComponent<Renderer>().material.color = Color.red;
+    }
 
     public void Run(EContextButton contextButton)
     {
         if (contextButton == EContextButton.DEACTIVATE) {
-            isActive = false;
-            gameObject.GetComponent<Renderer>().material.color = Color.red;
+            SetCameraState(false);
         }
 
         if (contextButton == EContextButton.ACTIVATE) {
-            isActive = true;
-            gameObject.GetComponent<Renderer>().material.color = Color.green;
+            SetCameraState(true);
+        }
+
+        if(contextButton == EContextButton.DOWNLOAD)
+        {
+
+        }
+
+        if(contextButton == EContextButton.UPLOAD){
+
         }
     }
 
     public EContextButton[] GetContextButtons()
     {
-        return new EContextButton[] {
-            EContextButton.DEACTIVATE,
-            EContextButton.ACTIVATE,
-            EContextButton.CALL
-        };
+        if(isActive)
+        {
+            return new EContextButton[] {
+                EContextButton.DEACTIVATE,
+                EContextButton.MOVE
+            };
+        }
+        else
+        {
+            return new EContextButton[] {
+                EContextButton.ACTIVATE,
+                EContextButton.MOVE
+            };
+        }
     }
 }

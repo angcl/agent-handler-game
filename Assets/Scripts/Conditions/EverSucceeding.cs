@@ -5,9 +5,9 @@ using UnityEngine;
 public class EverSucceeding : ICondition
 {
 
-    public void Randomize()
+    public bool Randomize()
     {
-        
+        return true;
     }
 
     public bool Check()
@@ -23,5 +23,13 @@ public class EverSucceeding : ICondition
     public ICondition Clone()
     {
         return (ICondition) this.MemberwiseClone();
+    }
+
+    public GameObject GetObjectToFocus() {
+        return null;
+    }
+
+    public ETaskIcon GetTaskIcon() {
+        return ETaskIcon.CAMERA;
     }
 }

@@ -20,7 +20,16 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetMouseButtonUp(0))
         {
+            if (uiController.IsContextMenuActive()) {
+                uiController.HideContextMenu();
+                return;
+            }
+                        
             var mousePos = Input.mousePosition;
+            Debug.Log(mousePos);
+            if ( uiController.IsPointInTaskArea(mousePos) ) {
+                return;
+            }
             var ray = mainCamera.ScreenPointToRay(mousePos);
             RaycastHit[] hits = Physics.RaycastAll(ray);
             if (hits.Length == 0) {
@@ -42,10 +51,5 @@ public class PlayerController : MonoBehaviour
                 uiController.ShowContextMenu(mousePos, clickable);
             }
         }
-    }
-
-    void FixedUpdate()
-    {
-
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TaskManager : MonoBehaviour
 {
     public List<Task> tasks = new List<Task>();
-    public string[] names = new string[] { };
+    public string[] names = new string[] {};
 
     private List<Task> tasksToRemove = new List<Task>();
     private GameController gameController;
@@ -14,8 +14,10 @@ public class TaskManager : MonoBehaviour
     public event TasksChanged OnTasksChanged;
 
     private readonly List<ICondition> availableConditions = new List<ICondition> {
-        new EverFailing(),
-        new EverSucceeding()
+        new CameraDeactivated(),
+        new EnergyDeactivated(),
+        new UploadedVirus(),
+        new DownloadedFiles()
     };
 
     private void Awake()
@@ -57,7 +59,16 @@ public class TaskManager : MonoBehaviour
         task.OnTaskSuccess += HandleSuccess;
         task.OnTaskFail += HandleFail;
 
-        task.AddCondition(GetRandomConditon());
+        // Todo: Better way of randomization
+        ICondition randomCondition = GetRandomConditon();
+        if(!randomCondition.Randomize())
+        {
+            GenerateTask();
+            return;
+        }
+        
+        task.AddCondition(randomCondition);
+
         tasks.Add(task);
 
         if (OnTasksChanged != null)
