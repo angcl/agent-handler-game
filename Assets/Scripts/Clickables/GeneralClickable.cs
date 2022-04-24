@@ -39,6 +39,8 @@ public abstract class GeneralClickable : MonoBehaviour, IClickable
         infoElement.SetSelected(false);
     }
 
+    public abstract void Reset();
+    
     public abstract EContextButton[] GetContextButtons();
 
 }

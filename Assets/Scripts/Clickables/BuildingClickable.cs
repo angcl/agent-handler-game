@@ -77,7 +77,7 @@ public class BuildingClickable : GeneralClickable
                 {
                     SetDownloadedState(true);
                     timePassedSinceFileTransaction = 0.0f;
-                    infoElement.SetBarState(false, uploadVirus ? Color.red : Color.green);
+                    infoElement.SetBarState(false, downloadFiles ? ColorHelper.GetColor(ColorHelper.GREEN) : ColorHelper.GetColor(ColorHelper.RED));
                 }
             }
         }
@@ -112,7 +112,7 @@ public class BuildingClickable : GeneralClickable
         isHacked = state;
         if (isHacked) {
             infoElement.ShowIcon(EInfoIcon.HACKED);
-            infoElement.SetBarState(false, uploadVirus ? Color.red : Color.green);
+            infoElement.SetBarState(false, uploadVirus ? ColorHelper.GetColor(ColorHelper.RED) : ColorHelper.GetColor(ColorHelper.GREEN));
 
             timePassedSinceFileTransaction = 0.0f;
             uploadVirus = false;
@@ -131,7 +131,7 @@ public class BuildingClickable : GeneralClickable
         isDownloaded = state;
         if (isDownloaded) {
             infoElement.ShowIcon(EInfoIcon.LEAKED);
-            infoElement.SetBarState(false, downloadFiles ? Color.green : Color.red);
+            infoElement.SetBarState(false, downloadFiles ? ColorHelper.GetColor(ColorHelper.GREEN) : ColorHelper.GetColor(ColorHelper.RED));
 
             timePassedSinceDownloaded = 0.0f;
             downloadFiles = false;
@@ -168,13 +168,30 @@ public class BuildingClickable : GeneralClickable
             downloadFiles = true;
         }
         
-        infoElement.SetBarState(uploadVirus || downloadFiles, uploadVirus ? Color.red : Color.green);
+        infoElement.SetBarState(uploadVirus || downloadFiles, uploadVirus ? ColorHelper.GetColor(ColorHelper.RED) : ColorHelper.GetColor(ColorHelper.GREEN));
     }
 
     public override void ResetTask()
     {
         base.ResetTask();
         infoElement.SetSelected(false);
+    }
+
+    public override void Reset()
+    {
+        SetHackedState(false);
+        SetDownloadedState(false);
+        SetEnergyState(true);
+
+        downloadFiles = false;
+        uploadVirus = false;
+
+        timePassedSinceDeactivation = 0.0f;
+        timePassedSinceDownloaded = 0.0f;
+        timePassedSinceFileTransaction = 0.0f;
+        timePassedSinceHacked = 0.0f;
+
+        infoElement.SetBarState(false, ColorHelper.GetColor(ColorHelper.GREEN));
     }
 
     public override EContextButton[] GetContextButtons()

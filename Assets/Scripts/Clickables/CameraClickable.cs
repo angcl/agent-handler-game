@@ -46,15 +46,13 @@ public class CameraClickable : GeneralClickable
         {
             SetCameraState(true);
         }
+    }
 
-        if(contextButton == EContextButton.DOWNLOAD)
-        {
-
-        }
-
-        if(contextButton == EContextButton.UPLOAD){
-
-        }
+    public override void Reset()
+    {
+        SetCameraState(true);
+        
+        timePassedSinceDeactivation = 0.0f;
     }
 
     public override EContextButton[] GetContextButtons()

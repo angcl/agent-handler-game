@@ -12,5 +12,7 @@ public interface IClickable
 
     bool HasTask();
 
+    void Reset();
+
     EContextButton[] GetContextButtons();
 }

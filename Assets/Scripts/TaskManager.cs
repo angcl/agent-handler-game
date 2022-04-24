@@ -55,6 +55,21 @@ public class TaskManager : MonoBehaviour
             OnTasksChanged(tasks);
     }
 
+    public void ResetTasks()
+    {
+        foreach(var task in tasks)
+        {
+            task.GetCurrentCondition().GetObjectToFocus().GetComponent<IClickable>().ResetTask();
+        }
+        tasks.Clear();
+
+        GeneralClickable[] clickables = GameObject.FindObjectsOfType<GeneralClickable>();
+        foreach(var clickable in clickables)
+        {
+            clickable.Reset();
+        }
+    }
+
     public void GenerateTask()
     {
         var task = new Task();

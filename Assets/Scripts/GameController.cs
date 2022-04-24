@@ -193,7 +193,8 @@ public class GameController : MonoBehaviour
         timeSurvived = 0.0f;
         numTasksCompleted = 0;
         numTasksFailed = 0;
-        taskManager.tasks.Clear();
+
+        taskManager.ResetTasks();
 
         gameState = EGameState.PLAYING;
         uiController.SetLostMenuActive(false);

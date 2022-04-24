@@ -65,9 +65,7 @@ public class InfoElement : MonoBehaviour
         if(!state)
         {
             currentTaskBar.value = 1.0f;
-            Color color;
-            ColorUtility.TryParseHtmlString("#00be53ff", out color);
-            currentTaskBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+            currentTaskBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = ColorHelper.GetColor(ColorHelper.GREEN);
         }
 
         currentTaskBar.gameObject.SetActive(state);
@@ -82,17 +80,18 @@ public class InfoElement : MonoBehaviour
             Color color;
             if(value <= 0.25f)
             {
-                ColorUtility.TryParseHtmlString("#ff4c53ff", out color);    
+                color = ColorHelper.GetColor(ColorHelper.RED);  
             }
             else
             {
-                ColorUtility.TryParseHtmlString("#ffbe53ff", out color);
+                color = ColorHelper.GetColor(ColorHelper.YELLOW);                
             }
             currentTaskBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
         }
         // green - 00be53ff
         // yellow - ffbe53ff
         // red - ff4c53ff
+        // blue - 297bffff
     }
 
 }

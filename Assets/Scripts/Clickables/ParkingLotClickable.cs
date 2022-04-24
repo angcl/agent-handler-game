@@ -61,6 +61,16 @@ public class ParkingLotClickable : GeneralClickable
         timePassedSinceArrival = 0.0f;
     }
     
+    public override void Reset()
+    {
+        SetArrivalState(false);
+
+        isWaitingForArrival = false;
+        timePassedSinceArrival = 0.0f;
+
+        infoElement.SetBarState(false, Color.cyan);
+    }
+
     public override void Run(EContextButton contextButton)
     {
         if (isWaitingForArrival)
@@ -68,7 +78,7 @@ public class ParkingLotClickable : GeneralClickable
 
         if (contextButton == EContextButton.CALL) {
             isWaitingForArrival = true;
-            infoElement.SetBarState(true, Color.cyan);
+            infoElement.SetBarState(true, ColorHelper.GetColor(ColorHelper.BLUE));
         }   
     }
 
