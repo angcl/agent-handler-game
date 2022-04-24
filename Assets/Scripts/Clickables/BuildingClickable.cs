@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingClickable : MonoBehaviour, IClickable
+public class BuildingClickable : GeneralClickable
 {
     public bool isEnergized { get; private set; } = true;
     public bool isHacked { get; private set; } = false;
@@ -26,22 +26,13 @@ public class BuildingClickable : MonoBehaviour, IClickable
     [SerializeField]
     private float timeForReactivation = 10.0f;
 
-    private WorldSpaceCanvasManager worldSpaceCanvasManager;
-
-    private InfoElement infoElement;
-    [SerializeField]
-    private float offsetY = 4.0f;
-
-    void Awake()
-    {
-        worldSpaceCanvasManager = GameObject.FindObjectOfType<WorldSpaceCanvasManager>();
-        var collider = gameObject.GetComponent<BoxCollider>();
-        var position = new Vector3(transform.position.x, collider.bounds.max.y + offsetY, transform.position.z);
-        infoElement = worldSpaceCanvasManager.CreateElement(position).GetComponent<InfoElement>();
-    }
 
     void Update()
     {
+        if(HasTask())
+        {
+            infoElement.UpdateTaskState(task.GetRemainingPercentage());
+        }
         if(!isEnergized)
         {
             timePassedSinceDeactivation += Time.deltaTime;
@@ -95,15 +86,19 @@ public class BuildingClickable : MonoBehaviour, IClickable
     private void SetEnergyState(bool state)
     {
         isEnergized = state;
+        var renderer = gameObject.GetComponent<Renderer>();
 
         if (isEnergized) {
             infoElement.HideIcon(EInfoIcon.DEACTIVATED_ENERGY);
-            gameObject.GetComponent<Renderer>().material.color = Color.grey;
+            if(renderer != null)
+                renderer.material.color = Color.grey;
             return;
         }
 
         infoElement.ShowIcon(EInfoIcon.DEACTIVATED_ENERGY);
-        gameObject.GetComponent<Renderer>().material.color = Color.black;
+
+        if(renderer != null)
+            renderer.material.color = Color.grey;
 
         timePassedSinceDeactivation = 0.0f;
     }
@@ -147,7 +142,7 @@ public class BuildingClickable : MonoBehaviour, IClickable
         timePassedSinceDownloaded = 0.0f;
     }
 
-    public void Run(EContextButton contextButton)
+    public override void Run(EContextButton contextButton)
     {
         if (contextButton == EContextButton.ACTIVATE) {
             SetEnergyState(true);
@@ -176,7 +171,13 @@ public class BuildingClickable : MonoBehaviour, IClickable
         infoElement.SetBarState(uploadVirus || downloadFiles, uploadVirus ? Color.red : Color.green);
     }
 
-    public EContextButton[] GetContextButtons()
+    public override void ResetTask()
+    {
+        base.ResetTask();
+        infoElement.SetSelected(false);
+    }
+
+    public override EContextButton[] GetContextButtons()
     {
         if(isEnergized)
         {

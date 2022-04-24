@@ -45,6 +45,7 @@ public class TaskManager : MonoBehaviour
 
         foreach(var task in tasksToRemove)
         {
+            task.GetCurrentCondition().GetObjectToFocus().GetComponent<IClickable>().ResetTask();
             tasks.Remove(task);
         }
 
@@ -72,8 +73,8 @@ public class TaskManager : MonoBehaviour
         }
         
         task.AddCondition(randomCondition);
-
         tasks.Add(task);
+        randomCondition.GetObjectToFocus().GetComponent<IClickable>().SetTask(task);
 
         if (OnTasksChanged != null)
             OnTasksChanged(tasks);
@@ -87,6 +88,7 @@ public class TaskManager : MonoBehaviour
     {
         task.OnTaskSuccess -= HandleSuccess;
         task.OnTaskFail -= HandleFail;
+
         tasksToRemove.Add(task);
     }
 

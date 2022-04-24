@@ -10,7 +10,7 @@ public class EnergyDeactivated : ICondition
     public bool Randomize()
     {
         BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
-        availableBuildings = availableBuildings.AsQueryable().Where(b => b.isEnergized).ToArray();
+        availableBuildings = availableBuildings.AsQueryable().Where(b => b.isEnergized && !b.HasTask()).ToArray();
         if(availableBuildings.Length == 0){
             return false;
         }
@@ -25,6 +25,11 @@ public class EnergyDeactivated : ICondition
 
     public float TimeToSolve() {
         return 10.0f;
+    }
+
+    public float ReputationLoss()
+    {
+        return 0.15f;
     }
 
     public ICondition Clone() {

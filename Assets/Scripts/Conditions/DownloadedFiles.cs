@@ -25,19 +25,28 @@ public class DownloadedFiles : ICondition
         return buildingClickable.isDownloaded;
     }
 
-    public float TimeToSolve() {
+    public float TimeToSolve() 
+    {
         return buildingClickable.timeForFileDownload * 1.5f;
     }
 
-    public ICondition Clone() {
+    public float ReputationLoss()
+    {
+        return 0.25f;
+    }
+
+    public ICondition Clone() 
+    {
         return (ICondition) this.MemberwiseClone();
     }
     
-    public GameObject GetObjectToFocus() {
+    public GameObject GetObjectToFocus() 
+    {
         return buildingClickable.gameObject;
     }
 
-    public ETaskIcon GetTaskIcon(){
+    public ETaskIcon GetTaskIcon()
+    {
         return ETaskIcon.DOWNLOAD;
     }
 }

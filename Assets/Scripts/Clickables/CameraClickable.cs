@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraClickable : MonoBehaviour, IClickable
+public class CameraClickable : GeneralClickable
 {
     public bool isActive { get; private set; } = true;
     private float timePassedSinceDeactivation = 0.0f;
@@ -35,13 +35,15 @@ public class CameraClickable : MonoBehaviour, IClickable
         gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
-    public void Run(EContextButton contextButton)
+    public override void Run(EContextButton contextButton)
     {
-        if (contextButton == EContextButton.DEACTIVATE) {
+        if (contextButton == EContextButton.DEACTIVATE)
+        {
             SetCameraState(false);
         }
 
-        if (contextButton == EContextButton.ACTIVATE) {
+        if (contextButton == EContextButton.ACTIVATE)
+        {
             SetCameraState(true);
         }
 
@@ -55,7 +57,7 @@ public class CameraClickable : MonoBehaviour, IClickable
         }
     }
 
-    public EContextButton[] GetContextButtons()
+    public override EContextButton[] GetContextButtons()
     {
         if(isActive)
         {

@@ -10,12 +10,14 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private UIController uiController;
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
         gameController = FindObjectOfType<GameController>();
         mainCamera = Camera.main;
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -54,6 +56,7 @@ public class PlayerController : MonoBehaviour
                 uiController.HideContextMenu();
             } else {
                 uiController.ShowContextMenu(mousePos, clickable);
+                audioManager.PlayAudioClip(EAudioClip.UI_CLICK);
             }
         }
     }

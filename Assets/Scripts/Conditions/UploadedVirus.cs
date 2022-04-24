@@ -11,7 +11,7 @@ public class UploadedVirus : ICondition
     {
         BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
 
-        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.isHacked && !b.uploadVirus && !b.downloadFiles).ToArray();
+        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.isHacked && !b.uploadVirus && !b.downloadFiles && !b.HasTask()).ToArray();
         if(availableBuildings.Length == 0){
             return false;
         }
@@ -25,15 +25,23 @@ public class UploadedVirus : ICondition
         return buildingClickable.isHacked;
     }
 
-    public float TimeToSolve() {
+    public float TimeToSolve() 
+    {
         return buildingClickable.timeForVirusUpload * 1.5f;
     }
 
-    public ICondition Clone() {
+    public float ReputationLoss()
+    {
+        return 0.25f;
+    }
+
+    public ICondition Clone() 
+    {
         return (ICondition) this.MemberwiseClone();
     }
     
-    public GameObject GetObjectToFocus() {
+    public GameObject GetObjectToFocus()
+    {
         return buildingClickable.gameObject;
     }
 

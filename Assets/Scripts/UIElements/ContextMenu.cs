@@ -8,9 +8,12 @@ public class ContextMenu : MonoBehaviour
 
     public IClickable clickable;
     public GameObject[] buttons;
+    private AudioManager audioManager;
     
     void Awake()
     {
+        audioManager = FindObjectOfType<AudioManager>();
+
         for(int i = 0; i < buttons.Length; i++)
         {
             var contextIndex = i;
@@ -25,8 +28,11 @@ public class ContextMenu : MonoBehaviour
 
     private void CallClickable(EContextButton contextButton)
     {
-        if(clickable != null)
-            clickable.Run(contextButton);
+        if(clickable == null)
+            return;
+
+        audioManager.PlayAudioClip(EAudioClip.UI_CLICK);
+        clickable.Run(contextButton);
     }
 
     public void SetClickable(IClickable clickable) {

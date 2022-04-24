@@ -10,7 +10,7 @@ public class CameraDeactivated : ICondition
     public bool Randomize()
     {
         CameraClickable[] availableCameras = GameObject.FindObjectsOfType<CameraClickable>();
-        availableCameras = availableCameras.AsQueryable().Where(c => c.isActive).ToArray();
+        availableCameras = availableCameras.AsQueryable().Where(c => c.isActive && !c.HasTask()).ToArray();
         if(availableCameras.Length == 0){
             return false;
         }
@@ -23,19 +23,28 @@ public class CameraDeactivated : ICondition
         return !cameraClickable.isActive;
     }
 
-    public float TimeToSolve() {
+    public float TimeToSolve() 
+    {
         return 10.0f;
     }
 
-    public ICondition Clone() {
+    public float ReputationLoss()
+    {
+        return 0.15f;
+    }
+
+    public ICondition Clone() 
+    {
         return (ICondition) this.MemberwiseClone();
     }
     
-    public GameObject GetObjectToFocus() {
+    public GameObject GetObjectToFocus() 
+    {
         return cameraClickable.gameObject;
     }
 
-    public ETaskIcon GetTaskIcon(){
+    public ETaskIcon GetTaskIcon()
+    {
         return ETaskIcon.CAMERA;
     }
 }

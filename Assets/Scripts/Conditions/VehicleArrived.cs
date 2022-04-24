@@ -11,7 +11,7 @@ public class VehicleArrived : ICondition
     {
         ParkingLotClickable[] availableParkingLots = GameObject.FindObjectsOfType<ParkingLotClickable>();
 
-        availableParkingLots = availableParkingLots.AsQueryable().Where(b => !b.isWaitingForArrival).ToArray();
+        availableParkingLots = availableParkingLots.AsQueryable().Where(b => !b.isWaitingForArrival && !b.isArrived && !b.HasTask()).ToArray();
         if(availableParkingLots.Length == 0){
             return false;
         }
@@ -25,19 +25,28 @@ public class VehicleArrived : ICondition
         return parkingLotClickable.isArrived;
     }
 
-    public float TimeToSolve() {
+    public float TimeToSolve() 
+    {
         return parkingLotClickable.timeForVehicleToArrive * 1.5f;
     }
 
-    public ICondition Clone() {
+    public float ReputationLoss()
+    {
+        return 0.25f;
+    }
+
+    public ICondition Clone() 
+    {
         return (ICondition) this.MemberwiseClone();
     }
     
-    public GameObject GetObjectToFocus() {
+    public GameObject GetObjectToFocus() 
+    {
         return parkingLotClickable.gameObject;
     }
 
-    public ETaskIcon GetTaskIcon(){
+    public ETaskIcon GetTaskIcon()
+    {
         return ETaskIcon.CALL;
     }
 }

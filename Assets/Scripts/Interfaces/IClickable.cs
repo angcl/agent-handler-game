@@ -5,5 +5,12 @@ using UnityEngine;
 public interface IClickable
 {
     void Run(EContextButton contextButton);
+
+    void SetTask(Task task);
+
+    void ResetTask();
+
+    bool HasTask();
+
     EContextButton[] GetContextButtons();
 }

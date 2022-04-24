@@ -12,15 +12,21 @@ public class UIController : MonoBehaviour
 
     public Slider reputationBar;
     
+    // Todo: More beautiful and efficient solution to this
     public GameObject mainMenu;
+    public TMPro.TMP_Text highScoreLabel;
+    public TMPro.TMP_Text scoreLabel;
     public GameObject ingameMenu;
     public GameObject pauseMenu;
+    public GameObject lostMenu;
     public GameObject taskArea;
     public GameObject taskList;
     public GameObject taskPrefab;
     public GameObject toolBar;
 
     public GameObject contextMenu;
+
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -30,6 +36,7 @@ public class UIController : MonoBehaviour
         taskManager.OnTasksChanged += HandleTasksChanged;
         var cameraController = Camera.main.GetComponent<CameraController>();
         cameraController.OnCameraMoved += HideContextMenu;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update() {
@@ -78,11 +85,13 @@ public class UIController : MonoBehaviour
         contextMenu.GetComponent<ContextMenu>().SetClickable(clickable);
     }
 
-    public void HideContextMenu() {
+    public void HideContextMenu() 
+    {
         contextMenu.SetActive(false);
     }
 
-    public bool IsContextMenuActive() {
+    public bool IsContextMenuActive() 
+    {
         return contextMenu.activeInHierarchy;
     }
 
@@ -97,28 +106,39 @@ public class UIController : MonoBehaviour
         return ( point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax );
     }
 
-    public void ShowMainMenu() {
-        mainMenu.SetActive(true);
+    public void SetMainMenuMenuActive(bool state)
+    {
+        mainMenu.SetActive(state);
     }
 
-    public void HideMainMenu() {
-        mainMenu.SetActive(false);
+    public void SetInGameMenuActive(bool state)
+    {
+        ingameMenu.SetActive(state);
     }
 
-    public void ShowIngameMenu() {
-        ingameMenu.SetActive(true);
+    public void SetPauseMenuActive(bool state)
+    {
+        pauseMenu.SetActive(state);
     }
 
-    public void HideIngameMenu() {
-        ingameMenu.SetActive(false);
+    public void SetLostMenuActive(bool state)
+    {
+        lostMenu.SetActive(state);
     }
 
-    public void ShowPauseMenu() {
-        pauseMenu.SetActive(true);
+    public void SetHighscore(Highscore highscore)
+    {
+        if(highscore.timeSurvived <= 0.0f)
+        {
+            highScoreLabel.text = "No highscore available";
+            return;
+        }
+        highScoreLabel.text = string.Format("{0:f2} seconds survived with {1} tasks completed", highscore.timeSurvived, highscore.numTasksCompleted);
     }
 
-    public void HidePauseMenu() {
-        pauseMenu.SetActive(false);
-    }
+    public void SetLostScreenStats(Highscore highscore, Highscore current)
+    {
+        scoreLabel.text = string.Format("{0:f2} seconds and completed {1} tasks", current.timeSurvived, current.numTasksCompleted);
+    }    
 
 }

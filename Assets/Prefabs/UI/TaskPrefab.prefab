@@ -327,8 +327,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Task Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dfab8dbd4fddbf34686e20c01b3b4928, type: 2}
+  m_sharedMaterial: {fileID: -3885436795380118062, guid: dfab8dbd4fddbf34686e20c01b3b4928, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

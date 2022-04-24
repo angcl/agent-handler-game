@@ -5,5 +5,5 @@ public enum EInfoIcon
     HACKED,
     LEAKED,
     ARRIVED
-    
+
 }

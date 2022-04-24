@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParkingLotClickable : MonoBehaviour, IClickable
+public class ParkingLotClickable : GeneralClickable
 {
     public bool isArrived { get; private set; } = false;
 
@@ -16,22 +16,12 @@ public class ParkingLotClickable : MonoBehaviour, IClickable
     private float timeForReactivation = 10.0f;
     private float timePassedSinceArrival = 0.0f;
 
-    private WorldSpaceCanvasManager worldSpaceCanvasManager;
-
-    private InfoElement infoElement;
-    [SerializeField]
-    private float offsetY = 4.0f;
-
-    void Awake()
-    {
-        worldSpaceCanvasManager = GameObject.FindObjectOfType<WorldSpaceCanvasManager>();
-        var collider = gameObject.GetComponent<BoxCollider>();
-        var position = new Vector3(transform.position.x, collider.bounds.max.y + offsetY, transform.position.z);
-        infoElement = worldSpaceCanvasManager.CreateElement(position).GetComponent<InfoElement>();
-    }
-
     void Update()
     {
+        if(HasTask())
+        {
+            infoElement.UpdateTaskState(task.GetRemainingPercentage());
+        }
         if (isArrived)
         {
             timePassedSinceArrival += Time.deltaTime;
@@ -71,7 +61,7 @@ public class ParkingLotClickable : MonoBehaviour, IClickable
         timePassedSinceArrival = 0.0f;
     }
     
-    public void Run(EContextButton contextButton)
+    public override void Run(EContextButton contextButton)
     {
         if (isWaitingForArrival)
             return;
@@ -82,7 +72,7 @@ public class ParkingLotClickable : MonoBehaviour, IClickable
         }   
     }
 
-    public EContextButton[] GetContextButtons()
+    public override EContextButton[] GetContextButtons()
     {
         return new EContextButton[] {
             EContextButton.CALL
