@@ -9,14 +9,21 @@ public class DownloadedFiles : ICondition
 
     public bool Randomize()
     {
-        BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
+        BuildingClickable[] allBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
 
-        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.downloadFiles && !b.isDownloaded && !b.uploadVirus).ToArray();
-        if(availableBuildings.Length == 0){
-            return false;
+        List<BuildingClickable> availableBuildings = new List<BuildingClickable>();
+
+        foreach (var b in allBuildings)
+        {
+            if (!b.downloadFiles && !b.isDownloaded && !b.uploadVirus && !b.HasTask())
+                availableBuildings.Add(b);
         }
 
-        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Length)];
+        if(availableBuildings.Count == 0){
+            return false;
+        }
+        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Count)];
+        
         return true;
     }
 

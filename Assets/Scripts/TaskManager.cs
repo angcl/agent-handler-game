@@ -13,6 +13,12 @@ public class TaskManager : MonoBehaviour
     public delegate void TasksChanged(List<Task> tasks);
     public event TasksChanged OnTasksChanged;
 
+    public delegate void TaskAdded(Task task);
+    public event TaskAdded OnTaskAdded;
+
+    public delegate void TaskRemoved(Task task);
+    public event TaskRemoved OnTaskRemoved;    
+
     private readonly List<ICondition> availableConditions = new List<ICondition> {
         new CameraDeactivated(),
         new EnergyDeactivated(),
@@ -47,6 +53,9 @@ public class TaskManager : MonoBehaviour
         {
             task.GetCurrentCondition().GetObjectToFocus().GetComponent<IClickable>().ResetTask();
             tasks.Remove(task);
+            if (OnTaskRemoved != null) {
+                OnTaskRemoved(task);
+            }
         }
 
         tasksToRemove.Clear();
@@ -70,7 +79,7 @@ public class TaskManager : MonoBehaviour
         }
     }
 
-    public void GenerateTask()
+    public bool GenerateTask()
     {
         var task = new Task();
 
@@ -83,16 +92,20 @@ public class TaskManager : MonoBehaviour
         ICondition randomCondition = GetRandomConditon();
         if(!randomCondition.Randomize())
         {
-            GenerateTask();
-            return;
+            return false;
         }
         
         task.AddCondition(randomCondition);
         tasks.Add(task);
+        if (OnTaskAdded != null) {
+            OnTaskAdded(task);
+        }
         randomCondition.GetObjectToFocus().GetComponent<IClickable>().SetTask(task);
 
         if (OnTasksChanged != null)
             OnTasksChanged(tasks);
+
+        return true;
     }
     
     private ICondition GetRandomConditon() {
@@ -109,14 +122,12 @@ public class TaskManager : MonoBehaviour
 
     void HandleFail(Task task)
     {
-        Debug.Log("Task failed: " + task.taskName);
         HandleTaskEvent(task);
         gameController.TaskFailed(task);
     }
 
     void HandleSuccess(Task task)
     {
-        Debug.Log("Task succeeded: " + task.taskName);
         HandleTaskEvent(task);
         gameController.TaskSucceeded(task);
     }

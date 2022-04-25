@@ -9,14 +9,20 @@ public class VehicleArrived : ICondition
 
     public bool Randomize()
     {
-        ParkingLotClickable[] availableParkingLots = GameObject.FindObjectsOfType<ParkingLotClickable>();
+        ParkingLotClickable[] allParkingLots = GameObject.FindObjectsOfType<ParkingLotClickable>();
 
-        availableParkingLots = availableParkingLots.AsQueryable().Where(b => !b.isWaitingForArrival && !b.isArrived && !b.HasTask()).ToArray();
-        if(availableParkingLots.Length == 0){
+        List<ParkingLotClickable> availableParkingLots = new List<ParkingLotClickable>();
+        foreach (ParkingLotClickable parkingLot in allParkingLots)
+        {
+            if (!parkingLot.isWaitingForArrival && !parkingLot.isArrived && !parkingLot.HasTask())
+                availableParkingLots.Add(parkingLot);
+        }
+        
+        if (availableParkingLots.Count == 0) {
             return false;
         }
 
-        parkingLotClickable = availableParkingLots[Random.Range(0, availableParkingLots.Length)];
+        parkingLotClickable = availableParkingLots[Random.Range(0, availableParkingLots.Count)];
         return true;
     }
 

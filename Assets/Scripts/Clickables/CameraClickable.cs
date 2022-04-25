@@ -12,6 +12,10 @@ public class CameraClickable : GeneralClickable
 
     void Update()
     {
+        if(HasTask())
+        {
+            infoElement.UpdateTaskState(task.GetRemainingPercentage());
+        }
         if(!isActive)
         {
             timePassedSinceDeactivation += Time.deltaTime;
@@ -51,7 +55,7 @@ public class CameraClickable : GeneralClickable
     public override void Reset()
     {
         SetCameraState(true);
-        
+
         timePassedSinceDeactivation = 0.0f;
     }
 

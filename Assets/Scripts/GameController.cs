@@ -17,7 +17,10 @@ public class GameController : MonoBehaviour
     private UIController uiController;
     private TaskManager taskManager;
 
-    public float generateTaskAfterTime = 20.0f;
+    [SerializeField]
+    private float defaultGenerateTaskAfterTime = 5.0f;
+    [SerializeField]
+    private float generateTaskAfterTime = 5.0f;
     private float timePassedForTaskGeneration = 0.0f;
     
     [SerializeField]
@@ -130,8 +133,10 @@ public class GameController : MonoBehaviour
             timeSurvived += Time.deltaTime;
             timePassedForTaskGeneration += Time.deltaTime;
             if (timePassedForTaskGeneration > generateTaskAfterTime) {
+                if (!taskManager.GenerateTask()) {
+                    return;
+                }
                 timePassedForTaskGeneration = 0.0f;
-                taskManager.GenerateTask();
                 audioManager.PlayAudioClip(EAudioClip.UI_NEW_TASK);
             }
 
@@ -193,6 +198,7 @@ public class GameController : MonoBehaviour
         timeSurvived = 0.0f;
         numTasksCompleted = 0;
         numTasksFailed = 0;
+        generateTaskAfterTime = defaultGenerateTaskAfterTime;
 
         taskManager.ResetTasks();
 

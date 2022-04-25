@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b5e9a35ff4ffa4ab57f65dfac5d09d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateTaskAfterTime: 5
+  generateTaskAfterTime: 0.5
   minGenerationTime: 5
   maxGenerationTime: 30
 --- !u!4 &912876939

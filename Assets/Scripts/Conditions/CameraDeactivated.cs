@@ -9,12 +9,21 @@ public class CameraDeactivated : ICondition
 
     public bool Randomize()
     {
-        CameraClickable[] availableCameras = GameObject.FindObjectsOfType<CameraClickable>();
-        availableCameras = availableCameras.AsQueryable().Where(c => c.isActive && !c.HasTask()).ToArray();
-        if(availableCameras.Length == 0){
+        CameraClickable[] allCameras = GameObject.FindObjectsOfType<CameraClickable>();
+
+        List<CameraClickable> availableCameras = new List<CameraClickable>();
+
+        foreach (var c in allCameras)
+        {
+            if (c.isActive && !c.HasTask())
+                availableCameras.Add(c);
+        }
+
+        if(availableCameras.Count == 0){
             return false;
         }
-        cameraClickable = availableCameras[Random.Range(0, availableCameras.Length)];
+
+        cameraClickable = availableCameras[Random.Range(0, availableCameras.Count)];
         return true;
     }
 

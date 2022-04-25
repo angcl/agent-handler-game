@@ -40,7 +40,7 @@ public abstract class GeneralClickable : MonoBehaviour, IClickable
     }
 
     public abstract void Reset();
-    
+
     public abstract EContextButton[] GetContextButtons();
 
 }

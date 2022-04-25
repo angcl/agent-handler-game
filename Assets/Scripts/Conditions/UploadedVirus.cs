@@ -9,14 +9,20 @@ public class UploadedVirus : ICondition
 
     public bool Randomize()
     {
-        BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
+        BuildingClickable[] allBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
 
-        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.isHacked && !b.uploadVirus && !b.downloadFiles && !b.HasTask()).ToArray();
-        if(availableBuildings.Length == 0){
+        List<BuildingClickable> availableBuildings = new List<BuildingClickable>();
+        foreach (BuildingClickable building in allBuildings)
+        {
+            if (!building.isHacked && !building.uploadVirus && !building.downloadFiles && !building.HasTask())
+                availableBuildings.Add(building);
+        }
+        
+        if(availableBuildings.Count == 0){
             return false;
         }
 
-        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Length)];
+        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Count)];
         return true;
     }
 
