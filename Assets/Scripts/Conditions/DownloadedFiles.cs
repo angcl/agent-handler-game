@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class DownloadedFiles : ICondition
 {
+    private ResourceManager resourceManager;
     private BuildingClickable buildingClickable;
 
     public bool Randomize()
     {
-        BuildingClickable[] allBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
 
         List<BuildingClickable> availableBuildings = new List<BuildingClickable>();
-
-        foreach (var b in allBuildings)
+        foreach (var b in resourceManager.buildings)
         {
             if (!b.downloadFiles && !b.isDownloaded && !b.uploadVirus && !b.HasTask())
                 availableBuildings.Add(b);

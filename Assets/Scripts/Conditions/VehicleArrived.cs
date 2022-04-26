@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class VehicleArrived : ICondition
 {
+    private ResourceManager resourceManager;
     private ParkingLotClickable parkingLotClickable;
 
     public bool Randomize()
     {
-        ParkingLotClickable[] allParkingLots = GameObject.FindObjectsOfType<ParkingLotClickable>();
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
 
         List<ParkingLotClickable> availableParkingLots = new List<ParkingLotClickable>();
-        foreach (ParkingLotClickable parkingLot in allParkingLots)
+        foreach (ParkingLotClickable parkingLot in resourceManager.parkingLots)
         {
             if (!parkingLot.isWaitingForArrival && !parkingLot.isArrived && !parkingLot.HasTask())
                 availableParkingLots.Add(parkingLot);

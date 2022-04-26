@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class CameraDeactivated : ICondition
 {
+    private ResourceManager resourceManager;
     CameraClickable cameraClickable;
 
     public bool Randomize()
     {
-        CameraClickable[] allCameras = GameObject.FindObjectsOfType<CameraClickable>();
-
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
+        
         List<CameraClickable> availableCameras = new List<CameraClickable>();
-
-        foreach (var c in allCameras)
+        foreach (var c in resourceManager.cameras)
         {
             if (c.isActive && !c.HasTask())
                 availableCameras.Add(c);

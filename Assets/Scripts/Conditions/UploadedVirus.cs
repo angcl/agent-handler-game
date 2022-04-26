@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class UploadedVirus : ICondition
 {
+
+    private ResourceManager resourceManager;
     private BuildingClickable buildingClickable;
 
     public bool Randomize()
     {
-        BuildingClickable[] allBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
 
         List<BuildingClickable> availableBuildings = new List<BuildingClickable>();
-        foreach (BuildingClickable building in allBuildings)
+        foreach (BuildingClickable building in resourceManager.buildings)
         {
             if (!building.isHacked && !building.uploadVirus && !building.downloadFiles && !building.HasTask())
                 availableBuildings.Add(building);

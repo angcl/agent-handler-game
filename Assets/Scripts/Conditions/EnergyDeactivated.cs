@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class EnergyDeactivated : ICondition
 {
+    private ResourceManager resourceManager;
     private BuildingClickable buildingClickable;
 
     public bool Randomize()
     {
-        BuildingClickable[] allBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
 
         List<BuildingClickable> availableBuildings = new List<BuildingClickable>();
-        foreach (BuildingClickable b in allBuildings)
+        foreach (BuildingClickable b in resourceManager.buildings)
         {
             if (!b.isHacked && !b.HasTask())
                 availableBuildings.Add(b);

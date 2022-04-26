@@ -14,6 +14,5 @@ public class DebugLogScreenPointPosition : MonoBehaviour
     void Update()
     {
         Vector3 iconPosition = Camera.main.WorldToScreenPoint(transform.position);
-        Debug.Log(iconPosition);
     }
 }
