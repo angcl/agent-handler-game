@@ -64,15 +64,13 @@ public class CameraClickable : GeneralClickable
         if(isActive)
         {
             return new EContextButton[] {
-                EContextButton.DEACTIVATE,
-                EContextButton.MOVE
+                EContextButton.DEACTIVATE
             };
         }
         else
         {
             return new EContextButton[] {
-                EContextButton.ACTIVATE,
-                EContextButton.MOVE
+                EContextButton.ACTIVATE
             };
         }
     }
