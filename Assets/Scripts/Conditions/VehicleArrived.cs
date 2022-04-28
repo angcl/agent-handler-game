@@ -34,7 +34,7 @@ public class VehicleArrived : ICondition
 
     public float TimeToSolve() 
     {
-        return parkingLotClickable.timeForVehicleToArrive * 1.5f;
+        return parkingLotClickable.timeForVehicleToArrive * 1.6f;
     }
 
     public float ReputationLoss()

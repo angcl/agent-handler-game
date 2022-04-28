@@ -36,7 +36,7 @@ public class UploadedVirus : ICondition
 
     public float TimeToSolve() 
     {
-        return buildingClickable.timeForVirusUpload * 1.5f;
+        return buildingClickable.timeForVirusUpload * 1.6f;
     }
 
     public float ReputationLoss()

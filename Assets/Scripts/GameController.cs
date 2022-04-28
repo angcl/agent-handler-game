@@ -29,6 +29,11 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private float maxGenerationTime = 30.0f;
 
+    [SerializeField]
+    private float speedUpTime = 0.2f;
+    [SerializeField]
+    private float slowDownTime = 0.3f;
+
     private AudioManager audioManager;
 
     private void Awake()
@@ -148,14 +153,14 @@ public class GameController : MonoBehaviour
     {
         reputation = Mathf.Max(0.0f, reputation - task.reputationLoss);
         numTasksFailed++;
-        generateTaskAfterTime = Mathf.Min(maxGenerationTime, generateTaskAfterTime + 0.2f);
+        generateTaskAfterTime = Mathf.Min(maxGenerationTime, generateTaskAfterTime + slowDownTime);
     }
 
     public void TaskSucceeded(Task task)
     {
         reputation = Mathf.Min(1.0f, reputation + task.reputationGain);
         numTasksCompleted++;
-        generateTaskAfterTime = Mathf.Max(minGenerationTime, generateTaskAfterTime - 0.1f);
+        generateTaskAfterTime = Mathf.Max(minGenerationTime, generateTaskAfterTime - speedUpTime);
     }
     
     public float GetReputation()

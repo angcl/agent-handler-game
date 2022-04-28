@@ -6,9 +6,7 @@ using TMPro;
 public class FadeAnimation : MonoBehaviour
 {
     private TMP_Text text;
-
     private bool shouldFadeIn = false;
-    private float fadeLevel = 1.0f;
 
     void Awake() {
         text = this.GetComponent<TMP_Text>();
