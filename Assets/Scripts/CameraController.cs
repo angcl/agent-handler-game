@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
         Vector3 cameraPos = mainCamera.transform.position;
         bool willMove = false;
 
-        if (mousePos.x <= moveRegion 
+        if (mousePos.x <= moveRegion
             || Input.GetKey(KeyCode.A) 
             || Input.GetKey(KeyCode.LeftArrow))
         {

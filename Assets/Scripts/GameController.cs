@@ -17,7 +17,10 @@ public class GameController : MonoBehaviour
     private UIController uiController;
     private TaskManager taskManager;
 
-    public float generateTaskAfterTime = 20.0f;
+    [SerializeField]
+    private float defaultGenerateTaskAfterTime = 5.0f;
+    [SerializeField]
+    private float generateTaskAfterTime = 5.0f;
     private float timePassedForTaskGeneration = 0.0f;
     
     [SerializeField]
@@ -25,6 +28,11 @@ public class GameController : MonoBehaviour
     
     [SerializeField]
     private float maxGenerationTime = 30.0f;
+
+    [SerializeField]
+    private float speedUpTime = 0.2f;
+    [SerializeField]
+    private float slowDownTime = 0.3f;
 
     private AudioManager audioManager;
 
@@ -130,8 +138,10 @@ public class GameController : MonoBehaviour
             timeSurvived += Time.deltaTime;
             timePassedForTaskGeneration += Time.deltaTime;
             if (timePassedForTaskGeneration > generateTaskAfterTime) {
+                if (!taskManager.GenerateTask()) {
+                    return;
+                }
                 timePassedForTaskGeneration = 0.0f;
-                taskManager.GenerateTask();
                 audioManager.PlayAudioClip(EAudioClip.UI_NEW_TASK);
             }
 
@@ -143,14 +153,14 @@ public class GameController : MonoBehaviour
     {
         reputation = Mathf.Max(0.0f, reputation - task.reputationLoss);
         numTasksFailed++;
-        generateTaskAfterTime = Mathf.Min(maxGenerationTime, generateTaskAfterTime + 0.2f);
+        generateTaskAfterTime = Mathf.Min(maxGenerationTime, generateTaskAfterTime + slowDownTime);
     }
 
     public void TaskSucceeded(Task task)
     {
         reputation = Mathf.Min(1.0f, reputation + task.reputationGain);
         numTasksCompleted++;
-        generateTaskAfterTime = Mathf.Max(minGenerationTime, generateTaskAfterTime - 0.1f);
+        generateTaskAfterTime = Mathf.Max(minGenerationTime, generateTaskAfterTime - speedUpTime);
     }
     
     public float GetReputation()
@@ -193,6 +203,7 @@ public class GameController : MonoBehaviour
         timeSurvived = 0.0f;
         numTasksCompleted = 0;
         numTasksFailed = 0;
+        generateTaskAfterTime = defaultGenerateTaskAfterTime;
 
         taskManager.ResetTasks();
 

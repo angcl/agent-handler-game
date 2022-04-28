@@ -12,6 +12,10 @@ public class CameraClickable : GeneralClickable
 
     void Update()
     {
+        if(HasTask())
+        {
+            infoElement.UpdateTaskState(task.GetRemainingPercentage());
+        }
         if(!isActive)
         {
             timePassedSinceDeactivation += Time.deltaTime;
@@ -51,7 +55,7 @@ public class CameraClickable : GeneralClickable
     public override void Reset()
     {
         SetCameraState(true);
-        
+
         timePassedSinceDeactivation = 0.0f;
     }
 
@@ -60,15 +64,13 @@ public class CameraClickable : GeneralClickable
         if(isActive)
         {
             return new EContextButton[] {
-                EContextButton.DEACTIVATE,
-                EContextButton.MOVE
+                EContextButton.DEACTIVATE
             };
         }
         else
         {
             return new EContextButton[] {
-                EContextButton.ACTIVATE,
-                EContextButton.MOVE
+                EContextButton.ACTIVATE
             };
         }
     }

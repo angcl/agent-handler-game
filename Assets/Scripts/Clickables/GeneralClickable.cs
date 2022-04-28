@@ -14,7 +14,7 @@ public abstract class GeneralClickable : MonoBehaviour, IClickable
     void Awake()
     {
         worldSpaceCanvasManager = GameObject.FindObjectOfType<WorldSpaceCanvasManager>();
-        var collider = gameObject.GetComponent<BoxCollider>();
+        var collider = gameObject.GetComponent<Collider>();
         var position = new Vector3(transform.position.x + offset.x, collider.bounds.max.y + offset.y, transform.position.z + offset.z);
         infoElement = worldSpaceCanvasManager.CreateElement(position).GetComponent<InfoElement>();
     }
@@ -40,7 +40,7 @@ public abstract class GeneralClickable : MonoBehaviour, IClickable
     }
 
     public abstract void Reset();
-    
+
     public abstract EContextButton[] GetContextButtons();
 
 }

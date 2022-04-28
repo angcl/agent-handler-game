@@ -86,19 +86,13 @@ public class BuildingClickable : GeneralClickable
     private void SetEnergyState(bool state)
     {
         isEnergized = state;
-        var renderer = gameObject.GetComponent<Renderer>();
 
         if (isEnergized) {
             infoElement.HideIcon(EInfoIcon.DEACTIVATED_ENERGY);
-            if(renderer != null)
-                renderer.material.color = Color.grey;
             return;
         }
 
         infoElement.ShowIcon(EInfoIcon.DEACTIVATED_ENERGY);
-
-        if(renderer != null)
-            renderer.material.color = Color.grey;
 
         timePassedSinceDeactivation = 0.0f;
     }
