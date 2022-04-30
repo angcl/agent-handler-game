@@ -11,21 +11,19 @@ public class BuildingClickable : GeneralClickable
     public bool uploadVirus { get; private set; } = false;
 
     [SerializeField]
-    public float timeForVirusUpload { get; private set; } = 10.0f;
+    public float timeForVirusUpload { get; private set; } = 9.5f;
 
     public bool downloadFiles { get; private set; } = false;
 
     [SerializeField]
-    public float timeForFileDownload { get; private set; } = 10.0f;
+    public float timeForFileDownload { get; private set; } = 8f;
     
     private float timePassedSinceDeactivation = 0.0f;
     private float timePassedSinceHacked = 0.0f;
     private float timePassedSinceFileTransaction = 0.0f;
     private float timePassedSinceDownloaded = 0.0f;
 
-    [SerializeField]
-    private float timeForReactivation = 10.0f;
-
+    private float timeForReactivation = 6.5f;
 
     void Update()
     {
@@ -86,19 +84,15 @@ public class BuildingClickable : GeneralClickable
     private void SetEnergyState(bool state)
     {
         isEnergized = state;
-        var renderer = gameObject.GetComponent<Renderer>();
 
         if (isEnergized) {
             infoElement.HideIcon(EInfoIcon.DEACTIVATED_ENERGY);
-            if(renderer != null)
-                renderer.material.color = Color.grey;
+            this.audioManager.PlayAudioClip(EAudioClip.TASK_ELECTRICITY_ON);
             return;
         }
 
         infoElement.ShowIcon(EInfoIcon.DEACTIVATED_ENERGY);
-
-        if(renderer != null)
-            renderer.material.color = Color.grey;
+        this.audioManager.PlayAudioClip(EAudioClip.TASK_ELECTRICITY_OFF);
 
         timePassedSinceDeactivation = 0.0f;
     }
@@ -162,10 +156,12 @@ public class BuildingClickable : GeneralClickable
 
         if (contextButton == EContextButton.UPLOAD) {
             uploadVirus = true;
+            this.audioManager.PlayAudioClip(EAudioClip.TASK_VIRUS_UPLOAD);
         }
 
         if (contextButton == EContextButton.DOWNLOAD) {
             downloadFiles = true;
+            this.audioManager.PlayAudioClip(EAudioClip.TASK_FILES_DOWNLOAD);
         }
         
         infoElement.SetBarState(uploadVirus || downloadFiles, uploadVirus ? ColorHelper.GetColor(ColorHelper.RED) : ColorHelper.GetColor(ColorHelper.GREEN));

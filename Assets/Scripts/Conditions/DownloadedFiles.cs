@@ -5,18 +5,26 @@ using UnityEngine;
 
 public class DownloadedFiles : ICondition
 {
+    private ResourceManager resourceManager;
     private BuildingClickable buildingClickable;
 
     public bool Randomize()
     {
-        BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
 
-        availableBuildings = availableBuildings.AsQueryable().Where(b => !b.downloadFiles && !b.isDownloaded && !b.uploadVirus).ToArray();
-        if(availableBuildings.Length == 0){
-            return false;
+        List<BuildingClickable> availableBuildings = new List<BuildingClickable>();
+        foreach (var b in resourceManager.buildings)
+        {
+            if (!b.downloadFiles && !b.isDownloaded && !b.uploadVirus && !b.HasTask())
+                availableBuildings.Add(b);
         }
 
-        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Length)];
+        if(availableBuildings.Count == 0){
+            return false;
+        }
+        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Count)];
+        
         return true;
     }
 
@@ -27,7 +35,7 @@ public class DownloadedFiles : ICondition
 
     public float TimeToSolve() 
     {
-        return buildingClickable.timeForFileDownload * 1.5f;
+        return buildingClickable.timeForFileDownload + 5.5f;
     }
 
     public float ReputationLoss()

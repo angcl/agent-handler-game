@@ -1,22 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class VehicleArrived : ICondition
 {
+    private ResourceManager resourceManager;
     private ParkingLotClickable parkingLotClickable;
 
     public bool Randomize()
     {
-        ParkingLotClickable[] availableParkingLots = GameObject.FindObjectsOfType<ParkingLotClickable>();
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
 
-        availableParkingLots = availableParkingLots.AsQueryable().Where(b => !b.isWaitingForArrival && !b.isArrived && !b.HasTask()).ToArray();
-        if(availableParkingLots.Length == 0){
+        List<ParkingLotClickable> availableParkingLots = new List<ParkingLotClickable>();
+        foreach (ParkingLotClickable parkingLot in resourceManager.parkingLots)
+        {
+            if (!parkingLot.isWaitingForArrival && !parkingLot.isArrived && !parkingLot.HasTask())
+                availableParkingLots.Add(parkingLot);
+        }
+        
+        if (availableParkingLots.Count == 0) {
             return false;
         }
 
-        parkingLotClickable = availableParkingLots[Random.Range(0, availableParkingLots.Length)];
+        parkingLotClickable = availableParkingLots[Random.Range(0, availableParkingLots.Count)];
         return true;
     }
 
@@ -27,7 +34,7 @@ public class VehicleArrived : ICondition
 
     public float TimeToSolve() 
     {
-        return parkingLotClickable.timeForVehicleToArrive * 1.5f;
+        return parkingLotClickable.timeForVehicleToArrive + 5.5f;
     }
 
     public float ReputationLoss()

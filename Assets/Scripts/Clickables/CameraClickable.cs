@@ -6,12 +6,15 @@ public class CameraClickable : GeneralClickable
 {
     public bool isActive { get; private set; } = true;
     private float timePassedSinceDeactivation = 0.0f;
-    
-    [SerializeField]
-    private float timeForReactivation = 10.0f;
 
+    private float timeForReactivation = 7.5f;
+    
     void Update()
     {
+        if(HasTask())
+        {
+            infoElement.UpdateTaskState(task.GetRemainingPercentage());
+        }
         if(!isActive)
         {
             timePassedSinceDeactivation += Time.deltaTime;
@@ -26,13 +29,13 @@ public class CameraClickable : GeneralClickable
     private void SetCameraState(bool active) 
     {
         isActive = active;
+        this.audioManager.PlayAudioClip(EAudioClip.TASK_CAMERA);
+
         if (isActive) {
-            gameObject.GetComponent<Renderer>().material.color = Color.green;
             return;
         }
 
         timePassedSinceDeactivation = 0.0f;
-        gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public override void Run(EContextButton contextButton)
@@ -51,7 +54,7 @@ public class CameraClickable : GeneralClickable
     public override void Reset()
     {
         SetCameraState(true);
-        
+
         timePassedSinceDeactivation = 0.0f;
     }
 
@@ -60,15 +63,13 @@ public class CameraClickable : GeneralClickable
         if(isActive)
         {
             return new EContextButton[] {
-                EContextButton.DEACTIVATE,
-                EContextButton.MOVE
+                EContextButton.DEACTIVATE
             };
         }
         else
         {
             return new EContextButton[] {
-                EContextButton.ACTIVATE,
-                EContextButton.MOVE
+                EContextButton.ACTIVATE
             };
         }
     }

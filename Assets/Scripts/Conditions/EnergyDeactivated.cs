@@ -5,16 +5,26 @@ using UnityEngine;
 
 public class EnergyDeactivated : ICondition
 {
+    private ResourceManager resourceManager;
     private BuildingClickable buildingClickable;
 
     public bool Randomize()
     {
-        BuildingClickable[] availableBuildings = GameObject.FindObjectsOfType<BuildingClickable>();
-        availableBuildings = availableBuildings.AsQueryable().Where(b => b.isEnergized && !b.HasTask()).ToArray();
-        if(availableBuildings.Length == 0){
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
+
+        List<BuildingClickable> availableBuildings = new List<BuildingClickable>();
+        foreach (BuildingClickable b in resourceManager.buildings)
+        {
+            if (!b.isHacked && !b.HasTask())
+                availableBuildings.Add(b);
+        }
+        
+        if(availableBuildings.Count == 0){
             return false;
         }
-        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Length)];
+        
+        buildingClickable = availableBuildings[Random.Range(0, availableBuildings.Count)];
         return true;
     }
 
@@ -24,7 +34,7 @@ public class EnergyDeactivated : ICondition
     }
 
     public float TimeToSolve() {
-        return 10.0f;
+        return 8f;
     }
 
     public float ReputationLoss()

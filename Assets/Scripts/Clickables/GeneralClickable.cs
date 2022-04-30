@@ -7,14 +7,16 @@ public abstract class GeneralClickable : MonoBehaviour, IClickable
     protected InfoElement infoElement;
 
     private WorldSpaceCanvasManager worldSpaceCanvasManager;
+    protected AudioManager audioManager;
 
     [SerializeField]
     private Vector3 offset = new Vector3(0.0f, 4.0f, 0.0f);
 
     void Awake()
     {
+        this.audioManager = FindObjectOfType<AudioManager>();
         worldSpaceCanvasManager = GameObject.FindObjectOfType<WorldSpaceCanvasManager>();
-        var collider = gameObject.GetComponent<BoxCollider>();
+        var collider = gameObject.GetComponent<Collider>();
         var position = new Vector3(transform.position.x + offset.x, collider.bounds.max.y + offset.y, transform.position.z + offset.z);
         infoElement = worldSpaceCanvasManager.CreateElement(position).GetComponent<InfoElement>();
     }
@@ -40,7 +42,7 @@ public abstract class GeneralClickable : MonoBehaviour, IClickable
     }
 
     public abstract void Reset();
-    
+
     public abstract EContextButton[] GetContextButtons();
 
 }

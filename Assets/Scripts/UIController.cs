@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class UIController : MonoBehaviour
     private TaskManager taskManager;
     private GameController gameController;
     
-    private List<GameObject> currentState = new List<GameObject>();
+    private Dictionary<Task, GameObject> currentTasks = new Dictionary<Task, GameObject>();
 
     public Slider reputationBar;
     
@@ -33,7 +34,10 @@ public class UIController : MonoBehaviour
 
         taskManager = GetComponent<TaskManager>();
         gameController = GetComponent<GameController>();
-        taskManager.OnTasksChanged += HandleTasksChanged;
+
+        taskManager.OnTaskAdded += HandleTaskAdd;
+        taskManager.OnTaskRemoved += HandleTaskRemove;
+
         var cameraController = Camera.main.GetComponent<CameraController>();
         cameraController.OnCameraMoved += HideContextMenu;
         audioSource = GetComponent<AudioSource>();
@@ -48,31 +52,30 @@ public class UIController : MonoBehaviour
 
     void ClearTaskList()
     {
-        if(currentState.Count == 0)
+        if(currentTasks.Count == 0)
             return;
             
-        foreach(var gameObject in currentState)
+        foreach(var gameObject in currentTasks)
         {
-            Destroy(gameObject);
+            Destroy(gameObject.Value);
         }
         
-        currentState.Clear();
+        currentTasks.Clear();
     }
 
-    private void HandleTasksChanged(List<Task> tasks)
+    private void HandleTaskAdd(Task  task)
     {
-        ClearTaskList();
+        GameObject taskObject = Instantiate(taskPrefab, taskList.GetComponent<Transform>());
+        currentTasks.Add(task, taskObject);
         
-        foreach(var task in tasks)
-        {
-            GameObject taskObject = Instantiate(taskPrefab, taskList.GetComponent<Transform>());
-            currentState.Add(taskObject);
-            
-            TaskElement taskElement = taskObject.GetComponent<TaskElement>();
-            taskElement.task = task;
-        }
-        
-        // reputationBar.value = gameController.GetReputation();
+        TaskElement taskElement = taskObject.GetComponent<TaskElement>();
+        taskElement.task = task;
+    }
+
+    private void HandleTaskRemove(Task task)
+    {
+        GameObject gameObject = currentTasks[task];
+        Destroy(gameObject);
     }
 
     public void ShowContextMenu(Vector3 coordinates, IClickable clickable)

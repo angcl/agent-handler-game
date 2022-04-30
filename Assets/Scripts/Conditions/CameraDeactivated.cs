@@ -5,16 +5,26 @@ using UnityEngine;
 
 public class CameraDeactivated : ICondition
 {
+    private ResourceManager resourceManager;
     CameraClickable cameraClickable;
 
     public bool Randomize()
     {
-        CameraClickable[] availableCameras = GameObject.FindObjectsOfType<CameraClickable>();
-        availableCameras = availableCameras.AsQueryable().Where(c => c.isActive && !c.HasTask()).ToArray();
-        if(availableCameras.Length == 0){
+        if (resourceManager == null)
+            resourceManager = GameObject.FindObjectOfType<ResourceManager>();
+        
+        List<CameraClickable> availableCameras = new List<CameraClickable>();
+        foreach (var c in resourceManager.cameras)
+        {
+            if (c.isActive && !c.HasTask())
+                availableCameras.Add(c);
+        }
+
+        if(availableCameras.Count == 0){
             return false;
         }
-        cameraClickable = availableCameras[Random.Range(0, availableCameras.Length)];
+
+        cameraClickable = availableCameras[Random.Range(0, availableCameras.Count)];
         return true;
     }
 
@@ -25,7 +35,7 @@ public class CameraDeactivated : ICondition
 
     public float TimeToSolve() 
     {
-        return 10.0f;
+        return 8f;
     }
 
     public float ReputationLoss()
