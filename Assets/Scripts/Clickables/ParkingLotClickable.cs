@@ -5,15 +5,12 @@ using UnityEngine;
 public class ParkingLotClickable : GeneralClickable
 {
     public bool isArrived { get; private set; } = false;
-
-    [SerializeField]
-    public float timeForVehicleToArrive { get; private set; } = 10.0f;
+    public float timeForVehicleToArrive { get; private set; } = 7.5f;
     private float timePassedSinceVehicleCall = 0.0f;
 
     public bool isWaitingForArrival { get; private set; } = false;
     
-    [SerializeField]
-    private float timeForReactivation = 10.0f;
+    private float timeForReactivation = 6.5f;
     private float timePassedSinceArrival = 0.0f;
 
     void Update()

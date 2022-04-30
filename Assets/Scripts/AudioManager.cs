@@ -40,5 +40,7 @@ public class AudioManager : MonoBehaviour
 public enum EAudioClip
 {
     UI_CLICK,
-    UI_NEW_TASK
+    UI_NEW_TASK,
+    UI_TASK_FAILED,
+    UI_TASK_SUCCEEDED
 }

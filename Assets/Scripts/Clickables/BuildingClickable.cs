@@ -11,20 +11,19 @@ public class BuildingClickable : GeneralClickable
     public bool uploadVirus { get; private set; } = false;
 
     [SerializeField]
-    public float timeForVirusUpload { get; private set; } = 10.0f;
+    public float timeForVirusUpload { get; private set; } = 9.5f;
 
     public bool downloadFiles { get; private set; } = false;
 
     [SerializeField]
-    public float timeForFileDownload { get; private set; } = 10.0f;
+    public float timeForFileDownload { get; private set; } = 8f;
     
     private float timePassedSinceDeactivation = 0.0f;
     private float timePassedSinceHacked = 0.0f;
     private float timePassedSinceFileTransaction = 0.0f;
     private float timePassedSinceDownloaded = 0.0f;
 
-    [SerializeField]
-    private float timeForReactivation = 10.0f;
+    private float timeForReactivation = 6.5f;
 
 
     void Update()

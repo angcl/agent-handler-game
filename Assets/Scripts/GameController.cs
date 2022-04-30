@@ -154,6 +154,7 @@ public class GameController : MonoBehaviour
         reputation = Mathf.Max(0.0f, reputation - task.reputationLoss);
         numTasksFailed++;
         generateTaskAfterTime = Mathf.Min(maxGenerationTime, generateTaskAfterTime + slowDownTime);
+        audioManager.PlayAudioClip(EAudioClip.UI_TASK_FAILED);
     }
 
     public void TaskSucceeded(Task task)
@@ -161,6 +162,7 @@ public class GameController : MonoBehaviour
         reputation = Mathf.Min(1.0f, reputation + task.reputationGain);
         numTasksCompleted++;
         generateTaskAfterTime = Mathf.Max(minGenerationTime, generateTaskAfterTime - speedUpTime);
+        audioManager.PlayAudioClip(EAudioClip.UI_TASK_SUCCEEDED);
     }
     
     public float GetReputation()
