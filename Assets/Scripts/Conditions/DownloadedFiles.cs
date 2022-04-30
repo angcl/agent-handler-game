@@ -35,7 +35,7 @@ public class DownloadedFiles : ICondition
 
     public float TimeToSolve() 
     {
-        return buildingClickable.timeForFileDownload * 1.6f;
+        return buildingClickable.timeForFileDownload + 5.5f;
     }
 
     public float ReputationLoss()

@@ -6,10 +6,9 @@ public class CameraClickable : GeneralClickable
 {
     public bool isActive { get; private set; } = true;
     private float timePassedSinceDeactivation = 0.0f;
-    
-    [SerializeField]
-    private float timeForReactivation = 10.0f;
 
+    private float timeForReactivation = 7.5f;
+    
     void Update()
     {
         if(HasTask())
@@ -31,12 +30,10 @@ public class CameraClickable : GeneralClickable
     {
         isActive = active;
         if (isActive) {
-            gameObject.GetComponent<Renderer>().material.color = Color.green;
             return;
         }
 
         timePassedSinceDeactivation = 0.0f;
-        gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public override void Run(EContextButton contextButton)

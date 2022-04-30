@@ -34,7 +34,7 @@ public class EnergyDeactivated : ICondition
     }
 
     public float TimeToSolve() {
-        return 8.5f;
+        return 8f;
     }
 
     public float ReputationLoss()
