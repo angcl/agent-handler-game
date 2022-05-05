@@ -69,6 +69,8 @@ public class TaskManager : MonoBehaviour
         foreach(var task in tasks)
         {
             task.GetCurrentCondition().GetObjectToFocus().GetComponent<IClickable>().ResetTask();
+            if (OnTaskRemoved != null)
+                OnTaskRemoved(task);
         }
         tasks.Clear();
 
